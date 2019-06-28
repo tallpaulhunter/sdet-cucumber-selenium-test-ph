@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
     features = {"src/test/resources/features/storefinder"},
-//    tags = {"@FilteredSearches"},
+    tags = {"@StoreFinder"},
     plugin = {"pretty", "html:target/cucumber"})
 public class TestRunner {
 
