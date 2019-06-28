@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import uk.co.costcutter.common.CommonVerification;
 
 public class Footer {
+
   private CommonVerification commonVerification = getCommonVerification();
 
   private By footer = By.className("page-footer");
@@ -19,6 +20,7 @@ public class Footer {
   }
 
   public Footer verifyFooterUpIsDisplayed() {
+
     commonVerification.verifyIsDisplayed(footer);
     return this;
   }

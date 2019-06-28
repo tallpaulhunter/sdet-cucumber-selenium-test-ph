@@ -20,11 +20,13 @@ public class Carousel {
   }
 
   public Carousel verifyCarouselIsDisplayed() {
+
     commonVerification.verifyIsDisplayed(carouselWrapper);
     return this;
   }
 
   public Carousel verifyCarouselIsEmpty() {
+
     commonVerification.verifyItemIsEmpty(carouselWrapper);
     return this;
   }

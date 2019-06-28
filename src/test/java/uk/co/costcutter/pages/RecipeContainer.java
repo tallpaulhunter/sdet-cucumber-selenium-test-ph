@@ -12,6 +12,7 @@ public class RecipeContainer {
   private By recipeContainer = By.xpath("/html/body/section[3]");
 
   private RecipeContainer() {
+
     // hide it
   }
 
@@ -20,11 +21,13 @@ public class RecipeContainer {
   }
 
   public RecipeContainer verifyRecipeContainerIsDisplayed() {
+
     commonVerification.verifyIsDisplayed(recipeContainer);
     return this;
   }
 
   public RecipeContainer verifyRecipeContainerIsNotEmpty() {
+
     commonVerification.verifyItemIsNotEmpty(recipeContainer);
     return this;
   }

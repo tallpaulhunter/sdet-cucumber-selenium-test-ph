@@ -9,12 +9,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uk.co.costcutter.common.CommonVerification;
+import uk.co.costcutter.common.DriverFactory;
 
 public class StoreFinder {
 
@@ -37,7 +39,7 @@ public class StoreFinder {
 
   private By titleBanner = By.xpath("/html/body/section[1]/div[2]/div/h2");
 
-  private Map<String, By> objectMap = new HashMap<String, By>();
+  private Map<String, By> objectMap = new HashMap<>();
 
   private StoreFinder() {
     // hide it
@@ -57,7 +59,8 @@ public class StoreFinder {
     return this;
   }
 
-  public StoreFinder populateObjectMap() {
+  private StoreFinder populateObjectMap() {
+
     objectMap.put("find options", findOptions);
 
     objectMap.put("my location button", locationSearchButton);
@@ -76,14 +79,15 @@ public class StoreFinder {
   }
 
   public StoreFinder verifyPageTitle() {
+
     commonVerification.verifyPageTitle("Location Finder");
+    LOG.info("Page title is as expected");
     return this;
   }
 
   public StoreFinder verifyBreadcrumb(String trail) {
+
     List<String> items = Arrays.asList(trail.split("\\s*>\\s*"));
-    LOG.info(items.get(0));
-    LOG.info(items.get(1));
     List<WebElement> breadcrumbItems = driver.findElements(
         By.cssSelector("body > section.container.store-finder-area > div:nth-child(1) > nav > ul > li")
     );
@@ -94,32 +98,61 @@ public class StoreFinder {
     assertThat(breadcrumbItems.get(1).getText())
         .as("First part of breadcrumb is not as expected")
         .isEqualTo(items.get(1));
+    LOG.info("Breadcrumb is as expected");
 
     return this;
   }
 
-  public StoreFinder verifyItemPlaceholder(String item, String text){
+  public StoreFinder verifyItemPlaceholder(String item, String text) {
+
     commonVerification.verifyItemPlaceholder(objectMap.get(item), text);
+    LOG.info("Placeholder is as expected");
     return this;
   }
 
   public StoreFinder verifyItemDisplayed(String item) {
+
     commonVerification.verifyIsDisplayed(objectMap.get(item));
+    LOG.info("{} is displayed", item);
     return this;
   }
 
-  public StoreFinder verifyItemText(String item, String text){
+  public StoreFinder verifyItemText(String item, String text) {
+
     commonVerification.verifyItemText(objectMap.get(item), text);
+    LOG.info("{} text is as expected: {}", item, text);
     return this;
   }
 
-  public StoreFinder verifyItemIsEmpty(String item){
+  public StoreFinder verifyItemIsEmpty(String item) {
+
     commonVerification.verifyItemIsEmpty(objectMap.get(item));
+    LOG.info("{} is empty", item);
     return this;
   }
 
-  public void searchForString(String searchString) {
+  public StoreFinder searchForString(String searchString) {
+
     driver.findElement(postcodeSearchInput).sendKeys(searchString);
     driver.findElement(postcodeSearchButton).click();
+    return this;
+  }
+
+  public StoreFinder setCurrentLocation(String location) {
+
+    if (location.equals("Leeds")) {
+      driver = DriverFactory.getChromeDriverWithLocation(53.799227, -1.543675);
+    } else if (location.equals("Paris")) {
+      driver = DriverFactory.getChromeDriverWithLocation(48.861396, 2.334057);
+    } else {
+      Assertions.fail("Location not recognised");
+    }
+    return this;
+  }
+
+  public StoreFinder selectLocationButton() {
+
+    driver.findElement(locationSearchButton).click();
+    return this;
   }
 }

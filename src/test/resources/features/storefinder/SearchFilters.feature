@@ -3,13 +3,14 @@ Feature: Searches utilising filters
 
   Background: Navigate to the Costcutter store finder
     Given I navigate to store finder page
+    When Search is performed for "YO1"
+    And 14 stores are returned near "York YO1, UK"
 
   @IndividualFilters
   Scenario Outline: Individual filters applied
-    Given Search is performed for "YO1"
-    When The <filter> filter is selected
-    And The "Update stores" button is selected
-    Then There are <count> results returned
+    When The "<filter>" filter is selected
+    And The Update stores button is selected
+    Then <count> stores are returned near "York YO1, UK"
 
     Examples:
       | filter          | count |
@@ -29,11 +30,10 @@ Feature: Searches utilising filters
 
   @MultipleFilters
   Scenario Outline: Multiple filters
-    Given Search is performed for "YO1"
     When The "<first>" filter is selected
     And The "<second>" filter is selected
-    And The "Update stores" button is selected
-    Then There are <count> results returned
+    And The Update stores button is selected
+    Then <count> stores are returned near "York YO1, UK"
 
     Examples:
       | first  | second          | count |
@@ -41,13 +41,14 @@ Feature: Searches utilising filters
 
   @StoresReturned
   Scenario: Stores returned for filter
-    Given Search is performed for "YO1"
     When The "Cash back" filter is selected
-    Then The following stores will be returned
-      | store                           | miles | expanded or collapsed |
-      | 83 HEWORTH ROAD, YORK           | 0.95  | expanded              |
-      | 137 BECKFIELD LANE, YORK        | 2.24  | collapsed             |
-      | 29 YORK STREET, DUNNINGTON      | 3.96  | collapsed             |
-      | 58 MAIN STREET, WHELDRAKE       | 6.33  | collapsed             |
-      | 8 WESTFIELD ROAD, YORK          | 8.54  | collapsed             |
-      | 17 COMMERCIAL STREET, TADCASTER | 8.87  | collapsed             |
+    And The Update stores button is selected
+    Then 6 stores are returned near "York YO1, UK"
+    And The following stores are returned
+      | store                | miles | expandedcollapsed |
+      | 83 HEWORTH ROAD      | 0.95  | expanded          |
+      | 137 BECKFIELD LANE   | 2.24  | collapsed         |
+      | 29 YORK STREET       | 3.96  | collapsed         |
+      | 58 MAIN STREET       | 6.33  | collapsed         |
+      | 8 WESTFIELD ROAD     | 8.54  | collapsed         |
+      | 17 COMMERCIAL STREET | 8.87  | collapsed         |
