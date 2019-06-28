@@ -187,7 +187,7 @@ public class Results {
     commonVerification.verifyIsDisplayed(By.xpath(locatorString + "/div[1]/div/p"));
     LOG.info("Result {} operating title is displayed", resultItem);
 
-    commonVerification.verifyIsDisplayed(By.xpath(locatorString + "/div[1]/div/time/strong"));
+    commonVerification.verifyIsDisplayed(By.xpath(locatorString + "/div[1]/div/time"));
     LOG.info("Result {} operating time is displayed", resultItem);
 
     commonVerification.verifyIsDisplayed(By.xpath(locatorString + "/div[1]/a[1]"));
